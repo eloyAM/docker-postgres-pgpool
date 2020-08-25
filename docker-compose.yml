@@ -1,0 +1,29 @@
+version: '3'
+services:
+  postgres-serv:
+    image: postgres
+    ports:
+      - 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres-password
+  pgpool-serv:
+    image: bitnami/pgpool
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgpool-extra.conf:/config/myconf.conf
+    environment:
+      # https://github.com/bitnami/bitnami-docker-pgpool#configuration
+      - PGPOOL_BACKEND_NODES=0:postgres-serv:5432
+      - PGPOOL_SR_CHECK_USER=postgres
+      - PGPOOL_SR_CHECK_PASSWORD=postgres-password
+      - PGPOOL_POSTGRES_USERNAME=postgres
+      - PGPOOL_POSTGRES_PASSWORD=postgres-password
+      - PGPOOL_ADMIN_USERNAME=pgpool
+      - PGPOOL_ADMIN_PASSWORD=pgpool-password
+      - PGPOOL_USER_CONF_FILE=/config/myconf.conf
+volumes:
+  postgres_data:
