@@ -9,25 +9,17 @@ Enlaces de interés:
 
 ## Configuración de In Memory Query Cache de Pgpool
 - Cachear solo las tablas especificadas (lista separada por comas, admite regex)  
-```SQL
-white_memqcache_table_list = '.*_cache_ok'
-```
+`white_memqcache_table_list = '.*_cache_ok'`
 - NO cachear las tablas especificadas (lista separada por comas, admite regex)  
-```SQL
-black_memqcache_table_list = '.*_cache_ng'
-```
+`black_memqcache_table_list = '.*_cache_ng'`
 - NO cachear cuando el resultado supera un tamaño (default 400KB)  
-```SQL
-memqcache_maxcache = 409600
-```
+`memqcache_maxcache = 409600`
 - Especificar en la propia sentencia que no se cachee  
 ```SQL
 /* NO QUERY CACHE */ SELECT * FROM table_cache_ok WHERE a = 1;
 ```
 - Cuándo expira (en segundos) un resultado cacheado  (0 significa que no expira)  
-```SQL
-memqcache_expire = 5
-```
+`memqcache_expire = 5`
 
 > Nota: en [pgpool-extra.conf](https://github.com/eloyAM/docker-postgres-pgpool/blob/master/pgpool-extra.conf) el parámetro `log_per_node_statement = on`  
 > no es realmente necesario. Nos sirve para ver en el log cómo maneja y cachea cada sentencia.
